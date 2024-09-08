@@ -14,6 +14,9 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signOutUserStart,
+  signOutUserFailure,
+  signOutUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 export default function Profile() {
@@ -86,26 +89,36 @@ export default function Profile() {
       dispatch(updateUserFailure(error.message));
     }
   };
-  const handleDeleteUser=async()=>{
+  const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`,
-       {
-        method: 'DELETE',
-       }
-      );
-       const data = await res.json();
-       if(data.success===false){
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
         dispatch(deleteUserFailure(data.messae));
-        return ;
-       }
-       dispatch(deleteUserSuccess(data)) 
-       
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
     } catch (error) {
-      dispatch(deleteUserFailure(error.message))
+      dispatch(deleteUserFailure(error.message));
     }
-
-  }
+  };
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch("/api/auth/signout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess());
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message));
+    }
+  };
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -169,10 +182,16 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5 ">
-        <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer font-semibold">
+        <span
+          onClick={handleDeleteUser}
+          className="text-red-700 cursor-pointer font-semibold"
+        >
           Delete Account{" "}
         </span>
-        <span className="text-red-700 cursor-pointer font-semibold">
+        <span
+          onClick={handleSignOut}
+          className="text-red-700 cursor-pointer font-semibold"
+        >
           {" "}
           Sign Out{" "}
         </span>
