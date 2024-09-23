@@ -18,7 +18,8 @@ export default function CreateListing() {
     description: "",
     address: "",
     type: "rent",
-    bedrooms: 1,
+    bedRooms: 5,
+    bathRooms: 5,
     regularPrice: 10,
     discountPrice: 0,
     offer: false,
@@ -142,7 +143,7 @@ export default function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(` /listing/${data._id}`)
+      navigate(` /listing/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -160,7 +161,7 @@ export default function CreateListing() {
         <div className="flex flex-col gap-4 flex-1">
           <input
             type="text"
-            placeholder="Name affiche toi "
+            placeholder="Name"
             className=" border p-3 rounded-lg"
             id="name"
             maxLength="62"
@@ -243,13 +244,13 @@ export default function CreateListing() {
             <div className="flex items-center gap-2">
               <input
                 type="Number"
-                id="bedrooms"
+                id="bedRooms"
                 min="10"
                 max="10000000"
                 required
                 className="p-3 border border-gray-300 rounded-lg"
                 onChange={handleChange}
-                value={formData.bedrooms}
+                value={formData.bedRooms}
               />
               <p className="">Beds</p>
             </div>
@@ -262,7 +263,7 @@ export default function CreateListing() {
                 required
                 className="p-3 border border-gray-300 rounded-lg "
                 onChange={handleChange}
-                value={formData.bathrooms}
+                value={formData.bathRooms}
               />
               <p className="">Baths</p>
             </div>
